@@ -1,0 +1,112 @@
+*{
+    margin:0px;
+}
+
+.my_container{
+    border: 0px solid black;
+    width: auto;
+    height: auto;
+}
+
+.my_panel{
+    width: 80%;
+    margin: auto;
+    height: auto;
+    margin-top:20px;
+    border: 0px dashed black;
+}
+
+.input_form{
+    border: 1px solid blue;
+    width: 620px;
+    height: 420px;
+    margin: auto;
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 15px;
+    text-align: justify;
+}
+.input_form_pf_signup{
+    border: 1px solid blue;
+    width: 620px;
+    height: 520px;
+    margin: auto;
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 15px;
+    text-align: justify;
+}
+.center{
+    text-align: center;
+    margin: auto;
+    color: rgb(26, 26, 28)
+}
+.navbar-nav{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-left: 290px;
+}
+
+.error_msg{
+    text-align: center;
+    margin: auto;
+    color: red;
+}
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    gap: 10px;
+    background-color: #ffffff;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 10px;
+  }
+  
+  .grid-container >a {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgb(255, 255, 255);
+    text-align: center;
+    font-size: 30px;
+  }
+
+
+  .button-7 {
+    background-color: #0095ff;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    box-shadow: rgba(255, 255, 255, .4) 0 1px 0 0 inset;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-family: -apple-system,system-ui,"Segoe UI","Liberation Sans",sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.15385;
+    margin: 0;
+    outline: none;
+    padding: 8px .8em;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: baseline;
+    white-space: nowrap;
+  }
+  
+  .button-7:hover,
+  .button-7:focus {
+    background-color: rgb(182, 204, 221);
+  }
+  
+  .button-7:focus {
+    box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
+  }
+  
+  .button-7:active {
+    background-color: #a4c4e0;
+    box-shadow: none;
+  }

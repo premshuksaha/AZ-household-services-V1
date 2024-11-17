@@ -1,0 +1,44 @@
+{%extends "cs_layout.html"%}
+{%block content%}
+
+<div class="my_panel">
+    <h4>Services available for {{servicename}}</h4>
+    <div class="table-responsive">
+        <table class="table table-lg">
+        {%if services%}
+            <thead class="table-light">
+                <tr>
+                <th scope="col">Sl.No</th>
+                <th scope="col">Description</th>
+                <th scope="col">Time required(in hrs)</th>
+                <th scope="col">Average Rating</th>
+                <th scope="col">Base Price</th>
+                <th scope="col"></th>
+                </tr>                       
+            </thead>
+            {%for service in services%}
+            <tbody>
+                <tr>
+                    <th scope="row">{{loop.index}}</th>
+                    <td>{{service.description}}</td>
+                    <td>{{service.timerequire}}</td>
+                    {%if service.average_rating==0%}
+                        <td>---</td>
+                    {%else%}
+                        <td>{{service.average_rating|round(2, 'floor')}}</td>
+                    {%endif%}
+                    <td style="font-weight: bold;">*Rs {{service.baseprice}}</td>                                
+                    <td><a href="/book/{{serviceid}}/{{service.id}}/{{id}}/{{name}}" type="button" class="btn btn-primary btn-sm">Book</a>
+                    </tr>
+            </tbody>
+            {%endfor%}
+        {%else%}
+        <h4 class="center">There are no services available at the moment!!</h4>
+        {%endif%}
+        </table>
+    </div>
+</div>
+
+<h6 style="float: inline-end;font-style: italic;">*All prices are including GST</h6>
+
+{%endblock%}

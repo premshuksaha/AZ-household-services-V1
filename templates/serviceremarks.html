@@ -1,0 +1,84 @@
+{%extends "cs_layout.html"%}
+{%block content%}
+
+<div class="my_panel">
+    <form action="/serviceremarks/{{name}}/{{id}}/{{servicesid}}" method="POST">
+        <div class="input_form_pf_signup" style="height: 660px;" >
+            <h3 class="center">Service Remarks</h3>
+            </br>
+            <h5 class="center">Request ID:  {{servicesid}}</h5>
+            <hr>
+            <h4>Service Details:</h4>
+            <h6><u>Servicename:</u>   <i>{{servicename}}</i></h6>
+            <h6><u>Description:</u>   <i>{{description}}</i></h6>
+            <h6><u>Date of Request:</u>   <i>{{dateofreq}}</i></h6>
+            <hr>
+            <h4>Professional Details:</h4>
+            <h6><u>ID:</u>   <i>{{pid}}</i></h6>
+            <h6><u>Name:</u>   <i>{{pname}}</i></h6>
+            <h6><u>Phone:</u>    <i>{{phone}}</i></h6>
+            <hr>
+            </br>
+            <div class="rating">Service rating:
+                <input type="radio" id="star5" name="rating" value="5" />
+                <label for="star5">5 stars</label>
+                <input type="radio" id="star4" name="rating" value="4" />
+                <label for="star4">4 stars</label>
+                <input type="radio" id="star3" name="rating" value="3" />
+                <label for="star3">3 stars</label>
+                <input type="radio" id="star2" name="rating" value="2" />
+                <label for="star2">2 stars</label>
+                <input type="radio" id="star1" name="rating" value="1" />
+                <label for="star1">1 star</label>
+            </div>
+            <div class="form-group" >
+                <textarea class="form-control" id="remarks" rows="3" name="remarks" placeholder="Describe your experience"></textarea>
+            </div>
+            <a href="/cs_home/{{name}}/{{id}}" type="button" class="btn btn-danger" style="margin-left: 190px;margin-top: 15px;">Close</a>
+            <button type="submit" class="btn btn-primary" style="margin-top: 15px; margin-left: 20px;">Submit</button>
+        </div>
+    </form>
+</div>
+
+<style>
+     .rating {
+    float:left;
+    border:none;
+}
+.rating:not(:checked) > input {
+    position:absolute;
+    top:-9999px;
+    clip:rect(0, 0, 0, 0);
+}
+.rating:not(:checked) > label {
+    float:right;
+    width:1em;
+    padding:0 .1em;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:170%;
+    line-height:1;
+    color:grey;
+}
+.rating:not(:checked) > label:before {
+    content:'★ ';
+}
+.rating > input:checked ~ label {
+    color: gold;
+}
+.rating:not(:checked) > label:hover, .rating:not(:checked) > label:hover ~ label {
+    color: gold;
+}
+.rating > input:checked + label:hover, .rating > input:checked + label:hover ~ label, .rating > input:checked ~ label:hover, .rating > input:checked ~ label:hover ~ label, .rating > label:hover ~ input:checked ~ label {
+    color: #ea0;
+}
+.rating > label:active {
+    position:relative;
+}
+</style>
+
+
+{%endblock%}
+
+

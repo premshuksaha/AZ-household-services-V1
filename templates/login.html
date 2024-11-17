@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="/static/main.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <title>Login</title>
+    </head>
+    <body>
+        <div class="my_container">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="container-fluid">
+                  <a class="navbar-brand" href="#">A-Z HOUSEHOLD SERVICES</a>
+                </div>
+            </nav>
+            <div class="my_panel">
+                <div class="center"><h3>Login</h3></div>
+                <form action="/login" method="POST">
+                <div class="input_form">
+                    <div class="mb-3">
+                        <label for="user_name" class="form-label">Registered Email Id</label>
+                        <input type="email" name="email" class="form-control" id="user_name" placeholder="" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" name="password" class="form-control" id="password" placeholder="" required>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </div>
+                    <a href="/cs_signupp" class="button-7" role="button">Signup as a customer</a>
+                    </br><a href="/pf_signupp" class="button-7" role="button" style="margin-top: 10px;">Signup as a Professional</a>
+                    <div class="error_msg">{{msg}}</div>
+                </div>
+                </form>
+            </div>
+
+        </div>
+    </body>
+</html>

@@ -1,0 +1,282 @@
+{%extends "layout.html"%}
+{%block content%}
+<div class="my_panel">
+  <h5 style="font-style: oblique;font-weight: bold;">Welcome {{name}}!</h5>
+  <h4 style="margin-top: 30px;"><u>Services</u></h4>
+  {%if servicee%}
+  <ul class="list-group">
+    {%for servicee in servicee%}
+    <li class="list-group-item">{{loop.index}}. {{servicee.servicename}}<a href="/viewservices/{{servicee.id}}/{{servicee.servicename}}/{{name}}" type="button" class="btn btn-primary btn-sm" style="float: right;">View</a>
+      <button type="button" class="btn btn-warning btn-sm" style="float: right; margin-right: 5px;" data-bs-toggle="modal" data-bs-target="#editserviceModal" data-val="{{servicee.servicename}}#{{servicee.servicename}}#{{servicee.id}}">Edit</button>
+      <a href="#" type="button" class="btn btn-danger btn-sm" style="float: right; margin-right: 5px;" data-bs-toggle="modal" data-bs-target="#deleteserviceModal" data-val="{{servicee.servicename}}#{{servicee.servicename}}">Delete</a>
+      </li>
+    {%endfor%}
+  </ul>
+  {%else%}
+    <h5>No Services are available!! Please create one</h3>
+  {%endif%}
+
+  <!-- Button trigger modal -->
+  <button type="button" style="float: inline-end; margin-top: 10px;" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#addserviceModal">
+    + Add Service
+  </button>
+  <!-- add service Modal -->
+  <div class="modal fade" id="addserviceModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Service</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="/addservice/{{name}}" method="POST">
+        <div class="modal-body">
+          <div class="row mb-3">
+            <label for="servicename" class="col-sm-2 col-form-label">Name:</label>
+            <div class="col-sm-10">
+              <input type="text" name="servicename" class="form-control" id="servicename">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Add</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- edit service Modal -->
+  <div class="modal fade" id="editserviceModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Edit Service</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="/editservice/{{name}}" method="POST">
+        <div class="modal-body">
+          <div class="row mb-3">
+            <label for="serviceid" class="col-sm-2 col-form-label" hidden>id:</label>
+            <div class="col-sm-10">
+              <input type="text" name="idservice" class="form-control" id="idservice" hidden >
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="servicename" class="col-sm-2 col-form-label">Name:</label>
+            <div class="col-sm-10">
+              <input type="text" name="servicesname" class="form-control" id="servicesname" >
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script>
+    $("#editserviceModal").on("show.bs.modal", function(event){
+      var st=$(event.relatedTarget).data('val');
+      var values=st.split('#');
+      $(this).find('#servicesname').val(values[0]);
+      $(this).find('#description').val(values[1]);
+      $(this).find('#idservice').val(values[2]);
+    });
+  </script>
+
+
+  <!-- delete service Modal -->
+  <div class="modal fade" id="deleteserviceModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Delete Service</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="/deleteservice/{{name}}" method="POST">
+        <div class="modal-body">
+          <p>Deleting the Service will also delete the existing requests and connected professionals</p>
+          <div class="row mb-3">
+            <label for="servicename" class="col-sm-2 col-form-label">Name:</label>
+            <div class="col-sm-10">
+              <input type="text" name="servicesname" class="form-control" id="servicesname" readonly>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script>
+    $("#deleteserviceModal").on("show.bs.modal", function(event){
+      var st=$(event.relatedTarget).data('val');
+      var values=st.split('#');
+      $(this).find('#servicesname').val(values[0]);
+      $(this).find('#description').val(values[1]);
+    });
+  </script>
+
+
+
+  </br>
+
+  <h4 style="margin-top: 30px;"><u>Professionals </u>(Pending Verification)</h4>
+  <div class="table-responsive">
+    <table class="table table-sm">
+      {%if unverified_professionals%}
+        <thead class="table-light">
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Experience (in yrs)</th>
+            <th scope="col">Service Name</th>
+            <th scope="col">Date of Request</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%for professional in unverified_professionals%}
+            <tr>
+              <th scope="row"><a href="#" data-bs-toggle="modal" data-bs-target="#viewprofessionalModal" data-val="{{professional.email}}#{{professional.fullname}}#{{professional.servicename}}#{{professional.phone}}#{{professional.experience}}#{{professional.address}}#{{professional.pincode}}">{{professional.id}}</a></th>
+              <td>{{professional.fullname}}</td>
+              <td>{{professional.experience}}</td>
+              <td>{{professional.servicename}}</td>
+              <td>{{professional.Date}}</td>
+              <td><a href="/accept_pf/{{professional.id}}/{{name}}" type="button" class="btn btn-success btn-sm">Accept</a><a href="/reject_pf/{{professional.id}}/{{name}}" type="button"
+                  class="btn btn-danger btn-sm" style="margin-left: 7px;">Reject</a></td>
+            </tr>
+            {%endfor%}
+        </tbody>
+      {%else%}
+      <h5>There are no professionals available for verification</h5>
+      {%endif%}
+    </table>
+  </div>
+
+<!-- view professional Modal -->
+<div class="modal fade" id="viewprofessionalModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Professional Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row mb-3">
+          <label for="email" class="col-sm-2 col-form-label">Email:</label>
+          <div class="col-sm-10">
+            <input type="text" name="email" class="form-control" id="email" readonly>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <label for="fullname" class="col-sm-2 col-form-label">Fullname:</label>
+          <div class="col-sm-10">
+            <input type="text" name="fullname" class="form-control" id="fullname" readonly>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <label for="service name" class="col-sm-2 col-form-label">Service:</label>
+          <div class="col-sm-4">
+            <input type="text" name="service" class="form-control" id="service" readonly>
+          </div>
+          <label for="phone" class="col-sm-2 col-form-label">Phone:</label>
+          <div class="col-sm-4">
+            <input type="text" name="phone" class="form-control" id="phone" readonly>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <label for="experience" class="col-sm-2 col-form-label">Experience (in yrs):</label>
+          <div class="col-sm-10">
+            <input type="number" name="experience" class="form-control" id="experience" readonly>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <label for="address" class="col-sm-2 col-form-label">Address:</label>
+          <div class="col-sm-10">
+            <input type="text" name="address" class="form-control" id="address" readonly>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <label for="pincode" class="col-sm-2 col-form-label">Pincode:</label>
+          <div class="col-sm-10">
+            <input type="text" name="pincode" class="form-control" id="pincode" readonly>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $("#viewprofessionalModal").on("show.bs.modal", function(event){
+    var st=$(event.relatedTarget).data('val');
+    var values=st.split('#');
+    $(this).find('#email').val(values[0]);
+    $(this).find('#fullname').val(values[1]);
+    $(this).find('#service').val(values[2]);
+    $(this).find('#phone').val(values[3]);
+    $(this).find('#experience').val(values[4]);
+    $(this).find('#address').val(values[5]);
+    $(this).find('#pincode').val(values[6]);
+  });
+</script>
+
+
+  </br>
+  <h4><u>Service Requests</u></h4>
+  <div class="table-responsive">
+    <table class="table table-sm">
+      {%if service_requests%}
+        <thead class="table-light">
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Assigned Professional</th>
+            <th scope="col">Service Name</th>
+            <th scope="col">Customer Name</th>
+            <th scope="col">Requested Date</th>
+            <th scope="col">Completion Date</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%for requests in service_requests%}
+          <tr>
+            <th scope="row"><a href="#">{{requests.id}}</a></th>
+            {%if requests.professional_id==0%}
+              <td>to be assigned</td>
+            {%else%}
+            {%for professional in professionals%}
+              {%if professional.id==requests.professional_id%}
+              <td>{{professional.fullname}}</td>
+              {%endif%}
+            {%endfor%}
+
+            {%endif%}
+            <td>{{requests.servicee.servicename}}-{{requests.servicess.description}}</td>
+            {%for customer in customers%}
+              {%if customer.id==requests.customer_id%}
+                <td>{{customer.fullname}}</td>
+              {%endif%}
+            {%endfor%}
+            <td>{{requests.date_of_request}}</td>
+            <td>{{requests.date_of_completion}}</td>
+            <td>{{requests.service_status}}</td>
+          </tr>
+          {%endfor%}
+        </tbody>
+      {%else%}
+      <h5>There are no service requests</h5>
+      {%endif%}
+    </table>
+  </div>
+</div>
+{%endblock%}

@@ -1,0 +1,39 @@
+{%extends "layout.html"%}
+{%block content%}
+    <div class="my_panel">
+        <div class="container text-center mt-3">
+            <div class="d-flex justify-content-center">
+                <div class="container text-center mt-3 border p-3">
+                    <h3>Total Services Available</h3>
+                    <h1>{{ services_count }}</h1>
+                </div>
+                <div class="container text-center mt-3 border p-3">
+                    <h3>Total Service Request</h3>
+                    <h1>{{ services_request_count }}</h1>
+                </div>
+                <div class="container text-center mt-3 border p-3">
+                    <h3>Total Customers</h3>
+                    <h1>{{ customers_count }}</h1>
+                </div>
+                <div class="container text-center mt-3 border p-3">
+                    <h3>Total Professionals</h3>
+                    <h1>{{ professionals_count }}</h1>
+                </div>
+            </div>
+            <div class="mb-3">
+                <div class="d-flex justify-content-start ">
+                    <div class="container text-center mt-3 border">
+                        <img src="{{ url_for('static', filename='graphs/overall_customer_ratings.png') }}" alt="" class="img-fluid">
+                    </div>
+                    <div class="container text-center mt-3 border">
+                        <img src="{{ url_for('static', filename='graphs/status_wise_requests_count.png') }}" alt="" class="img-fluid">
+                    </div>
+        
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+{%endblock%}

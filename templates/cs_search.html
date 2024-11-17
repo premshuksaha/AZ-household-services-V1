@@ -1,0 +1,99 @@
+{%extends "cs_layout.html"%}
+{%block content%}
+<div class="my_panel">
+    <form class="d-flex" method="POST" action="/cs_search/{{name}}/{{id}}">
+        <div class="col-sm-4">
+            <select class="form-select" aria-label="Default select example" name="search_by" style="margin-left: 00px">
+                <option value="servicename">Available Services</option>
+                <option value="status">Service Status</option>
+            </select>
+        </div>
+        <input class="form-control me-2" type="search" placeholder="Search by name/service status" aria-label="Search" name="search_text" id="search_txt" required>
+        <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+
+    <h3>{{msg}}</h3>
+
+    <div class="table-responsive">
+        <table class="table table-lg">
+        {%if services%}
+            <thead class="table-light">
+                <tr>
+                <th scope="col">Sl.No</th>
+                <th scope="col">Description</th>
+                <th scope="col">Time required(in hrs)</th>
+                <th scope="col">Average Rating</th>
+                <th scope="col">Base Price</th>
+                <th scope="col"></th>
+                </tr>                       
+            </thead>
+            {%for service in services%}
+            <tbody>
+                <tr>
+                    <th scope="row">{{loop.index}}</th>
+                    <td>{{service.servicesss.servicename}} - {{service.description}}</td>
+                    <td>{{service.timerequire}}</td>
+                    <td>{{service.average_rating}}</td>
+                    <td>Rs {{service.baseprice}}</td>                                
+                    <td><a href="/book/{{service.service_id}}/{{service.id}}/{{id}}/{{name}}" type="button" class="btn btn-primary btn-sm">Book</a>
+                    </tr>
+            </tbody>
+            {%endfor%}
+        {%endif%}
+        </table>
+    </div>
+
+    <div class="table-responsive">
+        {%if all_services%}
+          <table class="table table-sm">
+              <thead class="table-light">
+                <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">Service Name</th>
+                  <th scope="col">Professional Name</th>
+                  <th scope="col">Phone No.</th>
+                  <th scope="col">Status</th>
+                </tr>
+              </thead>
+              {%for services in all_services%}
+              <tbody>
+                <tr>
+                  <th scope="row">{{loop.index}}</th>
+                  {%for servicee in service%}
+                    {%for i in serv%}
+                      {%if servicee.id==services.serviceid and i.id==services.service_id%}
+                        <td>{{servicee.servicename}} - {{i.description}}</td>
+                      {%endif%}
+                    {%endfor%}
+                  {%endfor%}
+                  {%if services.professional_id==0%}
+                    <td>to be assigned</td>
+                    <td>----------</td>
+                  {%else%}
+                    {%for professional in professionals%}
+                      {%if professional.id==services.professional_id%}
+                        <td>{{professional.fullname}}</td>
+                        <td>{{professional.phone}}</td>
+                      {%endif%}
+                    {%endfor%}
+                  {%endif%}
+                  {%if services.service_status=="requested"%}
+                    <td>{{services.service_status}}</td>
+                  {%elif services.service_status=="accepted"%}
+                    <td><a href="/closerequest/{{name}}/{{id}}/{{services.id}}" type="button" class="btn btn-primary btn-sm">Close it?</a></td>
+                  {%else%}
+                    <td>Closed</td>
+                  {%endif%}
+                </tr>
+              </tbody>
+              {%endfor%}
+          </table>
+          {%endif%}
+      </div>
+
+</div>
+
+
+
+
+{%endblock%}

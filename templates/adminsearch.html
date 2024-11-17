@@ -1,0 +1,138 @@
+{%extends "layout.html"%}
+{%block content%}
+<div class="my_panel">
+    <form class="d-flex" method="POST" action="/adminsearch/{{name}}">
+        <div class="col-sm-4">
+            <select class="form-select" aria-label="Default select example" name="search_by">
+                <option value="">Select</option>
+                <option value="services">Services</option>
+                <option value="customers">Customers</option>
+                <option value="professionals">Professionals</option>
+            </select>
+        </div>
+        <input class="form-control me-2" type="search" placeholder="Search by name/service status" aria-label="Search" name="search_text" id="search_txt">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+
+    <h3>{{msg}}</h3>
+
+    <div class="table-responsive">
+        <table class="table table-sm">
+        {%if services%}
+            <thead class="table-light">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Assigned Professional</th>
+                    <th scope="col">Customer Name</th>
+                    <th scope="col">Requested Date</th>
+                    <th scope="col">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%for requests in services%}
+                    <tr>
+                        <th scope="row"><a href="#">{{requests.id}}</a></th>
+                        {%if requests.professional_id==0%}
+                        <td>to be assigned</td>
+                        {%else%}
+                        {%for professional in professionals%}
+                        {%if professional.id==requests.professional_id%}
+                        <td>{{professional.fullname}}</td>
+                        {%endif%}
+                        {%endfor%}
+
+                        {%endif%}
+                        {%for customer in customers%}
+                        {%if customer.id==requests.customer_id%}
+                            <td>{{customer.fullname}}</td>
+                        {%endif%}
+                        {%endfor%}
+                        <td>{{requests.date_of_request}}</td>
+                        <td>{{requests.service_status}}</td>
+                    </tr>
+                {%endfor%}
+            </tbody>
+        {%endif%}
+        </table>
+    </div>
+
+
+
+
+
+
+
+    <div class="table-responsive">
+        <table class="table table-sm">
+        {%if customa%}
+            <thead class="table-light">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Customer Name</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Address </th>
+                    <th scope="col">Pincode</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%for i in customa%}
+                <tr> 
+                    <th scope="row">{{i.id}}</th>
+                    <td>{{i.fullname}}</td>
+                    <td>{{i.phone}}</td>
+                    <td>{{i.address}}</td>
+                    <td>{{i.pincode}}</td>
+                    {%if i.flag=="no"%}
+                        <td><a href="/customer_flag/{{name}}/{{i.id}}" type="button" class="btn btn-danger btn-sm">Flag</a</td>
+                    {%else%}
+                        <td><a href="/customer_unflag/{{name}}/{{i.id}}" type="button" class="btn btn-danger btn-sm">Unflag</a</td>
+                    {%endif%}
+                {%endfor%}
+            </tbody>
+        {%endif%}
+        </table>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-sm">
+        {%if profess%}
+            <thead class="table-light">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Professional Name</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Address </th>
+                    <th scope="col">Pincode</th>
+                    <th scope="col">Servicename</th>
+                    <th scope="col">Experience(in yrs)</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%for i in profess%}
+                <tr> 
+                    <th scope="row">{{i.id}}</th>
+                    <td>{{i.fullname}}</td>
+                    <td>{{i.phone}}</td>
+                    <td>{{i.address}}</td>
+                    <td>{{i.pincode}}</td>
+                    <td>{{i.servicename}}</td>
+                    <td>{{i.experience}}</td>
+                    {%if i.flag=="no"%}
+                        <td><a href="/professional_flag/{{name}}/{{i.id}}" type="button" class="btn btn-danger btn-sm">Flag</a</td>
+                    {%else%}
+                        <td><a href="/professional_unflag/{{name}}/{{i.id}}" type="button" class="btn btn-danger btn-sm">Unflag</a</td>
+                    {%endif%}
+                </tr>
+                {%endfor%}
+            </tbody>
+        {%endif%}
+        </table>
+    </div>
+
+</div>
+
+
+
+{%endblock%}

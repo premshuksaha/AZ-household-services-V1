@@ -1,0 +1,66 @@
+{%extends "pf_layout.html"%}
+{%block content%}
+            {%if professional%}
+            <div class="my_panel">
+                <div class="center"style="margin-top: 79px;"><h3>Edit Profile</h3></div>
+                <form action="/edit_pfprofile/{{name}}/{{id}}/{{service}}" method="POST">
+                <div class="input_form_pf_signup">
+                    <div class="row mb-3">
+                        <label for="inputEmail3" class="col-sm-2 col-form-label">Email Id:</label>
+                        <div class="col-sm-10">
+                          <input type="email" class="form-control" id="inputEmail3" name="email" value="{{professional.email}}">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="password" class="col-sm-2 col-form-label">Password:</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="password" name="password" value="{{professional.password}}">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="fullname" class="col-sm-2 col-form-label">Fullname:</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="fullname" name="fullname" value="{{professional.fullname}}">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="servicename" class="col-sm-2 col-form-label">Servicename:</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="servicename" name="servicename" value="{{professional.servicename}}" readonly>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="experience" class="col-sm-2 col-form-label">Experience (in yrs):</label>
+                        <div class="col-sm-10">
+                          <input type="number" class="form-control" id="experience" name="experience" value="{{professional.experience}}">
+                        </div>
+                    </div>
+                    <div class="row mb-3" style="margin-top: 15px;">
+                        <label for="address" class="col-sm-2 col-form-label">Address:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="address" name="address" value="{{professional.address}}">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="pincode" class="col-sm-2 col-form-label">Pincode:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="pincode" name="pincode" value="{{professional.pincode}}">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="phone" class="col-sm-2 col-form-label">Phone:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="phone" name="phone" value="{{professional.phone}}">
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Apply Changes</button>
+                        <a href="/pf_home/{{name}}/{{id}}/{{service}}" type="button" class="btn btn-danger" style="margin-left: 7px;">Cancel</a>
+                    </div>
+                </div>
+                </form>
+            </div>
+            {%else%}
+            <h5></h5>
+            {%endif%}
+ {%endblock%}

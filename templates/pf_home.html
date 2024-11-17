@@ -1,0 +1,127 @@
+{%extends "pf_layout.html"%}
+{%block content%}
+    <div class="my_panel">
+        <div>
+            <label style="font-size:larger;font-weight: bold;font-style: normal;">Welcome {{name}}!</label>
+            <a href="/edit_pfprofile/{{name}}/{{id}}/{{service}}" type="button" class="btn btn-warning btn-sm" style="margin-left: 100px;">Edit Profile</a>
+        </div>
+        <h4 style="margin-top: 30px;"><u>Today Services</u></h4>
+          <div class="table-responsive">
+              <table class="table table-sm">
+                  <thead class="table-light">
+                    <tr>
+                      <th scope="col">ID</th>
+                      <th scope="col">Customer Name</th>
+                      <th scope="col">Service Name</th>
+                      <th scope="col">Contact</th>
+                      <th scope="col">Location(with Pincode)</th>
+                      <th scope="col">Action</th>
+                    </tr>
+                  </thead>
+                  {%if requests%}
+                    <tbody>
+                        {%for request in requests%}
+                          
+                              
+                              
+                            {%if request.service_status=="requested" %}
+                              
+                              
+                             
+                                {%if request.rejected%}
+                                  
+                                  {% if pf.id not in request.rejected|map(attribute="professionalid") %}
+                                    <tr>
+                                      <th scope="row">{{request.id}} </th>
+                                      <td>{{request.customers.fullname}}</td>
+                                      <td>{{request.servicess.description}}</td>
+                                      <td>{{request.customers.phone}}</td>
+                                      <td>{{request.customers.address}}  {{request.customers.pincode}}</td>
+                                      <td><a href="/acceptservice/{{name}}/{{id}}/{{service}}/{{request.id}}" type="button" class="btn btn-success btn-sm">Accept</a>
+                                          <a href="/rejectservice/{{name}}/{{id}}/{{service}}/{{request.id}}" type="button" class="btn btn-danger btn-sm" style="margin-left: 7px;">Reject</a></td>
+                                    </tr>
+                                  {%endif%}
+                                  
+                                
+                                {%else%}
+                                  <tr>
+                                    <th scope="row">{{request.id}} </th>
+                                    <td>{{request.customers.fullname}}</td>
+                                    <td>{{request.servicess.description}}</td>
+                                    <td>{{request.customers.phone}}</td>
+                                    <td>{{request.customers.address}}  {{request.customers.pincode}}</td>
+                                    <td><a href="/acceptservice/{{name}}/{{id}}/{{service}}/{{request.id}}" type="button" class="btn btn-success btn-sm">Accept</a>
+                                        <a href="/rejectservice/{{name}}/{{id}}/{{service}}/{{request.id}}" type="button" class="btn btn-danger btn-sm" style="margin-left: 7px;">Reject</a></td>
+                                  </tr>
+                                {%endif%}
+                              
+                            {%endif%}
+
+                          
+                      
+                              
+                          {%if request.service_status=="accepted" and request.professional_id==pf.id%}
+                            <tr>
+                              <th scope="row">{{request.id}}</th>
+                              <td>{{request.customers.fullname}}</td>
+                              <td>{{request.servicess.description}}</td>
+                              <td>{{request.customers.phone}}</td>
+                              <td>{{request.customers.address}}  {{request.customers.pincode}}</td>
+                              <td>accepted</td>
+                            </tr>
+                          {%endif%}
+                        {%endfor%}   
+                      
+                    </tbody>
+                  {%else%}
+                  <h5></h5>
+                  {%endif%}
+              </table>
+          </div>
+        
+        </br>
+        <h4><u>Closed</u></h4>
+        
+          <div class="table-responsive">
+              <table class="table table-sm">
+                {%if requests1%}
+                  <thead class="table-light">
+                    <tr>
+                      <th scope="col">ID</th>
+                      <th scope="col">Customer Name</th>
+                      <th scope="col">Service Name</th>
+                      <th scope="col">Phone</th>
+                      <th scope="col">Locaton(with Pincode)</th>
+                      <th scope="col">Date of completion</th>
+                      <th scope="col">Rating</th>
+                      <th scope="col">Remarks</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {%for request in requests1%}
+                      {%for customer in customers%}
+                        {%if request.customer_id==customer.id%}
+                          {%if request.service_status=="closed"%}
+                            <tr>
+                              <th scope="row">{{request.id}}</th>
+                              <td>{{customer.fullname}}</td>
+                              <td>{{request.servicess.description}}</td>
+                              <td>{{customer.phone}}</td>
+                              <td>{{customer.address}} {{customer.pincode}}</td>
+                              <td>{{request.date_of_completion}}</td>
+                              <td>{{request.service_rating}}  </td>
+                              <td>{{request.service_remarks}}</td>
+                            </tr>
+                          {%endif%}
+                        {%endif%}
+                      {%endfor%}
+                    {%endfor%}
+                  </tbody>
+                {%else%}
+                <h6>Please complete a service requests first for it to appear here!!!</h6>
+                {%endif%}
+              </table>
+          </div>
+    </div>
+    
+{%endblock%}

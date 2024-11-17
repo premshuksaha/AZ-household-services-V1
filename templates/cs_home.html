@@ -1,0 +1,72 @@
+{%extends "cs_layout.html"%}
+{%block content%}
+    <div class="my_panel">
+        <div>
+            <label style="font-size:larger;font-weight: bold;font-style: normal;">Welcome {{name}}!</label>
+            <a href="/edit_csprofile/{{name}}/{{id}}" type="button" class="btn btn-warning btn-sm" style="margin-left: 100px;">Edit Profile</a>
+        </div>
+        {%if service%}
+            <h4 style="margin-top: 30px;">Looking For ?</h4>
+            <div class="grid-container">
+                {%for service in service%}
+                <div><a href="/openservice/{{service.id}}/{{service.servicename}}/{{id}}/{{name}}" type="button" class="btn btn-primary btn-lg" >{{service.servicename}}</a></div>
+                {%endfor%}
+            </div>
+        {%else%}
+        <h6>No services available currently</h6>
+        {%endif%}
+        </br>
+        <h4><u>Service History</u></h4>
+        <div class="table-responsive">
+          {%if all_services%}
+            <table class="table table-sm">
+                <thead class="table-light">
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Service Name</th>
+                    <th scope="col">Professional Name</th>
+                    <th scope="col">Phone No.</th>
+                    <th scope="col">Completion Date</th>
+                    <th scope="col">Status</th>
+                  </tr>
+                </thead>
+                {%for services in all_services%}
+                <tbody>
+                  <tr>
+                    <th scope="row">{{services.id}}</th>
+                    {%for servicee in service%}
+                      {%for i in serv%}
+                        {%if servicee.id==services.serviceid and i.id==services.service_id%}
+                          <td>{{servicee.servicename}} - {{i.description}}</td>
+                        {%endif%}
+                      {%endfor%}
+                    {%endfor%}
+                    {%if services.professional_id==0%}
+                      <td>to be assigned</td>
+                      <td>----------</td>
+                    {%else%}
+                      {%for professional in professionals%}
+                        {%if professional.id==services.professional_id%}
+                          <td>{{professional.fullname}}</td>
+                          <td>{{professional.phone}}</td>
+                        {%endif%}
+                      {%endfor%}
+                    {%endif%}
+                    <td>{{services.date_of_completion}}</td>
+                    {%if services.service_status=="requested"%}
+                      <td>{{services.service_status}}</td>
+                    {%elif services.service_status=="accepted"%}
+                      <td><a href="/closerequest/{{name}}/{{id}}/{{services.id}}" type="button" class="btn btn-primary btn-sm">Close it?</a></td>
+                    {%else%}
+                      <td>Closed</td>
+                    {%endif%}
+                  </tr>
+                </tbody>
+                {%endfor%}
+            </table>
+            {%else%}
+            <h5>You have not book any services yet!!</h5>
+            {%endif%}
+        </div>
+    </div>
+{%endblock%}

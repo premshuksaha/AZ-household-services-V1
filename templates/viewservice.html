@@ -1,0 +1,230 @@
+{%extends "layout.html"%}
+{%block content%}
+
+<div class="my_panel">
+    <h4>Services available for {{s_name}}</h4>
+    <div class="table-responsive">
+        <table class="table table-sm">
+            {%if servicer%}
+                <thead class="table-light">
+                    <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Time required(in hrs)</th>
+                    <th scope="col">Base Price</th>
+                    <th scope="col">Action</th>
+                    </tr>                       
+                </thead>
+                {%for service in servicer%}
+                    
+                    
+                    <tbody>
+                        <tr>
+                            <th scope="row">{{service.id}}</th>
+                            <td>{{service.description}}</td>
+                            <td>{{service.timerequire}}</td>
+                            <td>Rs {{service.baseprice}}</td>                                
+                            <td><button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editserviceModal" data-val="{{service.id}}#{{service.description}}#{{service.timerequire}}#{{service.baseprice}}">Edit</button>
+                                <button type="button" class="btn btn-danger btn-sm" style="margin-left: 7px;" data-bs-toggle="modal" data-bs-target="#deleteserviceModal" data-val="{{service.description}}#{{service.timerequire}}#{{service.baseprice}}">Delete</button></td>
+                            </tr>
+                    </tbody>
+                {%endfor%}
+            {%else%}
+            <h4 class="center">No services are available!!</h4>
+            {%endif%}
+        </table>
+    </div>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal"
+        style="float: inline-end;">+Add New</button>
+
+    <!-- add Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="#exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add a New Service</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <form action="/servicesadd/{{servicee_id}}/{{s_name}}/{{name}}" method="POST">
+                        <div class="input">
+                            <div class="row mb-4">
+                                <label for="servicename" class="col-sm-3 col-form-label">Service Name:</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="servicename" class="form-control" id="servicename" value="{{s_name}}" readonly
+                                        required>
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                                <label for="description" class="col-sm-3 col-form-label">Description:</label>
+                                <div class="col-sm-9">
+                                    <textarea class="form-control" name="description" id="exampleFormControlTextarea1"
+                                        rows="3" required></textarea>
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                                <label for="timerequired" class="col-sm-3 col-form-label">Time require(hrs):</label>
+                                <div class="col-sm-9">
+                                    <input type="number" name="timerequired" class="form-control" id="timerequired"
+                                        required>
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                                <label for="baseprice" class="col-sm-3 col-form-label">Base Price:</label>
+                                <div class="col-sm-9">
+                                    <input type="number" name="baseprice" class="form-control" id="baseprice" required>
+                                </div>
+                            </div>
+                        </div>
+                    
+
+                    
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- edit Modal -->
+<div class="modal fade" id="editserviceModal" tabindex="-1" aria-labelledby="#exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Service</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <form action="/editservice/{{servicee_id}}/{{s_name}}/{{name}}" method="POST">
+                    <div class="input">
+                        <div class="row mb-4">
+                            <label for="serviceid" class="col-sm-3 col-form-label" hidden>Service ID:</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="serviceid" class="form-control" id="serviceid" readonly hidden>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <label for="servicename" class="col-sm-3 col-form-label">Service Name:</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="servicename" class="form-control" id="servicename" value="{{s_name}}" readonly>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <label for="description" class="col-sm-3 col-form-label">Description:</label>
+                            <div class="col-sm-9">
+                                <textarea class="form-control" name="description" id="description"
+                                    rows="3" required></textarea>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <label for="timerequired" class="col-sm-3 col-form-label">Time require(hrs):</label>
+                            <div class="col-sm-9">
+                                <input type="number" name="timerequired" class="form-control" id="timerequired"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <label for="baseprice" class="col-sm-3 col-form-label">Base Price:</label>
+                            <div class="col-sm-9">
+                                <input type="number" name="baseprice" class="form-control" id="baseprice" required>
+                            </div>
+                        </div>
+                    </div>
+                
+
+                
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script>
+    $("#editserviceModal").on("show.bs.modal", function(event){
+      var st=$(event.relatedTarget).data('val');
+      var values=st.split('#');
+      $(this).find('#serviceid').val(values[0]);
+      $(this).find('#description').val(values[1]);
+      $(this).find('#timerequired').val(values[2]);
+      $(this).find('#baseprice').val(values[3]);
+    });
+  </script>
+
+
+<!-- delete Modal -->
+<div class="modal fade" id="deleteserviceModal" tabindex="-1" aria-labelledby="#exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Service</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <form action="/deleteservice/{{servicee_id}}/{{s_name}}/{{name}}" method="POST">
+                    <div class="input">
+                        <div class="row mb-4">
+                            <label for="servicename" class="col-sm-3 col-form-label">Service Name:</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="servicename" class="form-control" id="servicename" value="{{s_name}}" readonly
+                                    required>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <label for="description" class="col-sm-3 col-form-label">Description:</label>
+                            <div class="col-sm-9">
+                                <textarea class="form-control" name="description" id="description"
+                                    rows="3" readonly></textarea>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <label for="timerequired" class="col-sm-3 col-form-label">Time require(hrs):</label>
+                            <div class="col-sm-9">
+                                <input type="number" name="timerequired" class="form-control" id="timerequired"
+                                readonly>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <label for="baseprice" class="col-sm-3 col-form-label">Base Price:</label>
+                            <div class="col-sm-9">
+                                <input type="number" name="baseprice" class="form-control" id="baseprice" readonly>
+                            </div>
+                        </div>
+                    </div>
+                
+
+                
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script>
+    $("#deleteserviceModal").on("show.bs.modal", function(event){
+      var st=$(event.relatedTarget).data('val');
+      var values=st.split('#');
+      $(this).find('#description').val(values[0]);
+      $(this).find('#timerequired').val(values[1]);
+      $(this).find('#baseprice').val(values[2]);
+    });
+  </script>
+
+{%endblock%}

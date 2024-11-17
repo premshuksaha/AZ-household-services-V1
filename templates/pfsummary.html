@@ -1,0 +1,31 @@
+{%extends "pf_layout.html"%}
+{%block content%}
+
+
+    <div class="my_panel">
+        <div class="container text-center mt-3">
+            <div class="d-flex justify-content-center">
+                <div class="container text-center mt-3 border p-3">
+                    <h3>Average Rating</h3>
+                    {%if average_rating==None%}
+                    <h1>------</h1>
+                    {%else%}
+                    <h1>{{ average_rating}}</h1>
+                    {%endif%}
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <div class="d-flex justify-content-start ">
+                    <div class="container text-center mt-3 border">
+                        <img src="{{ url_for('static', filename='graphs/pf_overall_customer_ratings.png') }}" alt="" class="img-fluid">
+                    </div>
+                    <div class="container text-center mt-3 border">
+                        <img src="{{ url_for('static', filename='graphs/pf_status_wise_requests_count.png') }}" alt="" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{%endblock%}
